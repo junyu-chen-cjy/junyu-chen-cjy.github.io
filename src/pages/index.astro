@@ -1,65 +1,141 @@
 ---
 import { existsSync } from 'node:fs';
+import { person, projects, researchInterestGroups } from '../data/home';
 import '../styles/global.css';
 
-// The legacy repository does not include a portrait. Do not request a missing image.
-const hasAvatar = existsSync('public/avatar.jpg');
+// Dev and build commands run from the repository root, including static builds.
+const hasCV = existsSync('public/CV.pdf');
+const [featuredProject, otherProject] = projects;
+const description = `${person.name} — ${person.introduction} Current explorations and projects in artificial intelligence.`;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Junyu Chen</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Junyu Chen — Personal Website</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.site} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Junyu Chen" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site} />
+    <meta name="theme-color" content="#f6f4ef" />
     <link rel="icon" href="data:," />
-</head>
-<body>
-    <div class="header">
-        {hasAvatar ? (
-            <img class="avatar" src="/avatar.jpg" alt="Junyu Chen" />
-        ) : (
-            <div class="avatar" role="img" aria-label="Junyu Chen">Junyu Chen</div>
-        )}
-        <div>
-            <h1>Junyu Chen</h1>
-            <div class="affiliation">
-                Undergraduate Student in Artificial Intelligence, School of Computing and Intelligence Innovation, Fudan University
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="#top" aria-label="Junyu Chen, back to top">junyu<span>chen</span>.ai</a>
+        <nav aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#research">Research</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <section class="introduction" id="about" aria-labelledby="name">
+          <div class="name-block">
+            <p class="eyebrow">A personal home on the web</p>
+            <h1 id="name">{person.firstName}{' '}<br />{person.lastName}<span class="name-period">.</span></h1>
+          </div>
+          <div class="introduction-copy">
+            <p class="greeting">Hello, I'm Junyu.</p>
+            <p class="introduction-lead">{person.introduction}</p>
+            <details class="biography">
+              <summary>More about me <span class="disclosure-mark" aria-hidden="true">+</span></summary>
+              <div class="disclosure-content">
+                <p>{person.affiliation}.</p>
+                <p>{person.biography}</p>
+              </div>
+            </details>
+            <div class="personal-links" aria-label="Personal links">
+              <a class="text-link" href={person.github}>GitHub <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href={`mailto:${person.email}`}>Email <span aria-hidden="true">↗</span></a>
+              {hasCV ? (
+                <a class="text-link" href={person.cvUrl}>CV <span aria-hidden="true">↗</span></a>
+              ) : (
+                <details class="cv-disclosure">
+                  <summary>CV <span class="disclosure-mark" aria-hidden="true">+</span></summary>
+                  <div class="cv-note">
+                    <p>A CV is not available here yet.</p>
+                    <a href={`mailto:${person.email}?subject=CV%20request`}>Request by email <span aria-hidden="true">↗</span></a>
+                  </div>
+                </details>
+              )}
             </div>
-            <div class="links">
-                <a href="https://github.com/junyu-chen-cjy" target="_blank">GitHub</a>
-                <a href="mailto:cyhy1069@gmail.com">Email</a>
-                <a href="/CV.pdf" target="_blank">CV</a>
+          </div>
+          <div class="intro-footnote" aria-hidden="true"><span>Research &amp; projects</span><span>Explore below ↓</span></div>
+        </section>
+
+        <section class="projects-section" id="projects" aria-labelledby="projects-title">
+          <div class="section-heading">
+            <p class="eyebrow">01 / Projects</p>
+            <h2 id="projects-title">Learning by building.</h2>
+          </div>
+          <article class="featured-project" aria-labelledby="alphazero-title" id={featuredProject.id}>
+            <div class="project-copy">
+              <p class="project-kind">In progress / Self-play</p>
+              <h3 id="alphazero-title">{featuredProject.title}</h3>
+              <p class="project-summary">{featuredProject.summary}</p>
+              <p class="project-description">{featuredProject.description}</p>
+              <a class="text-link" href={featuredProject.url}>Explore AlphaZero on GitHub <span aria-hidden="true">↗</span></a>
             </div>
-        </div>
+            <figure class="search-figure">
+              <div class="figure-heading"><span>Monte-Carlo Tree Search</span><span aria-hidden="true">↘</span></div>
+              <img src="/images/search-tree.svg" width="600" height="340" alt="A conceptual search tree branches from one position into possible moves, with one path highlighted." loading="lazy" />
+              <figcaption>Conceptual sketch <span>Not a recorded search</span></figcaption>
+            </figure>
+          </article>
+          <article class="compact-project" aria-labelledby="mnist-title" id={otherProject.id}>
+            <div>
+              <p class="project-kind">Deep learning / Computer vision</p>
+              <h3 id="mnist-title">{otherProject.title}</h3>
+            </div>
+            <div class="compact-description">
+              <p>{otherProject.summary}</p>
+              <p class="project-description">{otherProject.description}</p>
+              <a class="text-link" href={otherProject.url}>Explore MNIST on GitHub <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </section>
+
+        <section class="research-section" id="research" aria-labelledby="research-title">
+          <div class="research-intro">
+            <p class="eyebrow">02 / Research</p>
+            <h2 id="research-title">Questions<br />to spend time with.</h2>
+            <p>{person.researchIntroduction}</p>
+          </div>
+          <div>
+            {researchInterestGroups.map((group) => (
+              <div class="research-index" role="group" aria-labelledby={group.id}>
+                <p class="eyebrow" id={group.id}>{group.title}</p>
+                <ul>
+                  {group.interests.map((interest, index) => (
+                    <li><span class="interest-number" aria-hidden="true">0{index + 1}</span><span>{interest.title}</span></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="contact-section" id="contact" aria-labelledby="contact-title">
+          <p class="eyebrow">03 / Contact</p>
+          <div class="contact-content">
+            <h2 id="contact-title">Let's stay in touch.</h2>
+            <a class="email-link" href={`mailto:${person.email}`}>{person.email} <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <span>{person.name}</span>
+        <div><a href={person.github}>GitHub <span aria-hidden="true">↗</span></a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
+      </footer>
     </div>
-
-    <h2>About Me</h2>
-    <p>
-        I am an undergraduate student focusing on Artificial Intelligence, especially deep learning and reinforcement learning.
-        I am looking forward to pursuing a PhD related to machine learning in the future.
-    </p>
-
-    <h2>Research Interests</h2>
-    <ul>
-        <li>Deep Learning</li>
-        <li>Reinforcement Learning</li>
-        <li>Large Language Models</li>
-    </ul>
-
-    <h2>Projects</h2>
-    <ul>
-        <li>
-        <strong>AlphaZero Implementation</strong>: A simplified reproduction of the AlphaZero algorithm based on Monte-Carlo Tree Search.
-        The framework supports self-play training for board games; further optimization and ablation experiments are ongoing.
-        <a href="https://github.com/junyu-chen-cjy/alphazero" target="_blank">[Code]</a>
-        </li>
-
-        <li>
-        <strong>MNIST Classification Experiment</strong>: Handwritten digit recognition using convolutional neural networks.
-        Completed dataset pipeline, model training and result visualization for basic vision tasks.
-        <a href="https://github.com/junyu-chen-cjy/MNIST" target="_blank">[Code]</a>
-        </li>
-    </ul>
-</body>
+  </body>
 </html>

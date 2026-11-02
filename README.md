@@ -1,8 +1,9 @@
 # junyuchen.ai
 
-The existing single-page homepage, migrated to Astro and TypeScript. This is a
-technical migration: the original copy and CSS are retained, without the planned
-visual redesign or new sections. Project principles are in [DESIGN.md](DESIGN.md).
+The first Standard Website homepage, built with Astro and TypeScript. Its visual
+direction is Editorial Home, with a focused studio-style treatment for the
+featured project. Only `/` is implemented. Project principles are in
+[DESIGN.md](DESIGN.md).
 
 ## Local development
 
@@ -39,8 +40,13 @@ npm run preview  # Serve the production build locally
 
 ## Files
 
-- `src/pages/index.astro`: the existing homepage, still served at `/`.
-- `src/styles/global.css`: the original global styles, extracted from `index.html`.
+- `src/pages/index.astro`: the homepage at `/`, with in-page navigation.
+- `src/data/home.ts`: existing public biography, research interests and project
+  descriptions, kept separate from the page layout. IDs are stable.
+- `src/styles/global.css`: responsive editorial layout, visual tokens, keyboard
+  focus states and reduced-motion support. System fonts require no downloads.
+- `public/images/search-tree.svg`: an illustrative MCTS search tree, explicitly
+  captioned as a conceptual sketch rather than actual project output.
 - `astro.config.ts`: static output and `site: 'https://junyuchen.ai'`; no repository
   path prefix is used for the custom domain.
 - `public/`: files copied unchanged to the root of `dist/`.
@@ -56,12 +62,12 @@ npm run preview  # Serve the production build locally
 
 The original repository contains neither `avatar.jpg` nor `CV.pdf`.
 
-- The homepage retains the portrait's 160px space and its existing alternative
-  text without requesting a missing image. To use a real portrait, add
-  `public/avatar.jpg` and restart the dev server or rebuild.
-- The CV link remains **`/CV.pdf`**, including its capitalization. Add the real
-  document as `public/CV.pdf` to make it available at that address. Until then,
-  following the link returns 404; no substitute document has been invented.
+- The first visual homepage uses typography rather than an empty portrait slot.
+  It does not request an avatar or invent a portrait.
+- The CV destination remains **`/CV.pdf`**, including its capitalization. Until
+  the real `public/CV.pdf` is supplied, the CV control opens an availability note
+  and email contact instead of a broken link. Rebuild after adding the PDF; the
+  control then becomes a normal PDF link. No substitute document is generated.
 - There is no custom favicon yet. An empty data URL prevents a request for a
   nonexistent browser icon.
 
@@ -71,7 +77,7 @@ This migration does **not** change GitHub Pages settings, DNS, the custom domain
 or the online publishing workflow. No deployment workflow is added here.
 
 The deployment artifact is **`dist/`**, not the repository root. Its root contains
-`index.html`, `CNAME`, `.nojekyll`, and any generated assets. Astro does not need a
+`index.html`, `CNAME`, `.nojekyll`, the project diagram and generated CSS assets. Astro does not need a
 server at runtime for this site.
 
 The existing branch-based Pages process does not build Astro. Do not merge this

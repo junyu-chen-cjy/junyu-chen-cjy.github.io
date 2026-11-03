@@ -1,0 +1,69 @@
+---
+import { person } from '../data/home';
+import { regions, systems, contentById } from '../universe/semantic';
+import '../universe/universe.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080e12" />
+    <title>Personal Universe — {person.name}</title>
+    <meta name="description" content="An experimental spatial exploration of Junyu Chen's research interests and projects." />
+    <link rel="canonical" href={new URL('/universe/', Astro.site)} />
+    <link rel="icon" href="data:," />
+  </head>
+  <body>
+    <main id="universe" data-mode="reading" data-level="universe">
+      <header class="universe-header">
+        <a class="universe-signature" href="/">Junyu Chen <span>/ Personal Universe</span></a>
+        <nav aria-label="Universe navigation">
+          <button id="back" type="button" hidden>← Back</button>
+          <button id="overview" type="button" hidden>Overview</button>
+          <a href="/">Standard Website <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+      <div id="space" hidden>
+        <canvas id="universe-canvas" aria-label="Three-dimensional view. Use the labelled targets to explore; Escape returns one level." tabindex="0"></canvas>
+        <div id="space-labels" role="group" aria-label="Explore this part of the universe"></div>
+        <section class="space-caption" aria-live="polite" aria-atomic="true">
+          <p id="level-name" class="overline">01 / Universe</p>
+          <h1 id="target-name">Junyu's universe</h1>
+          <p id="target-description">Research and building, seen from a different distance.</p>
+          <p id="content-description" hidden></p>
+          <a id="content-link" href="/" hidden>Read on the Standard Website ↗</a>
+        </section>
+        <footer class="space-footer">
+          <p id="interaction-hint">Move to look · scroll to approach · click to focus</p>
+          <button id="motion" type="button">Pause motion</button>
+          <div class="scale-track" aria-hidden="true"><span>Universe</span><span>Galaxy</span><span>System</span><span>Content</span></div>
+        </footer>
+      </div>
+      <section id="reading-view" class="reading-view">
+        <p class="overline">Personal Universe / Spatial study 01</p>
+        <h1>One person.<br />Connected directions.</h1>
+        <p id="reading-message">This reading view connects the same interests and projects. The spatial view requires JavaScript and WebGL.</p>
+        {Object.entries(regions).map(([id, region]) => (
+          <section aria-labelledby={`reading-${id}`}>
+            <h2 id={`reading-${id}`}>{region.title}</h2>
+            <p>{region.description}</p>
+            <ul>
+              {region.systems.map(systemId => (
+                <li><span>{systems[systemId].title}</span><div>
+                  {systems[systemId].members.map(contentId => (
+                    <a href={contentById[contentId].href}>{contentById[contentId].title} ↗</a>
+                  ))}
+                </div></li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </section>
+      <output id="universe-metrics" hidden aria-hidden="true"></output>
+    </main>
+    <script>
+      import '../universe/entry';
+    </script>
+  </body>
+</html>

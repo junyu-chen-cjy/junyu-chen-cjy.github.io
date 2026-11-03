@@ -2,7 +2,8 @@
 
 The first Standard Website homepage, built with Astro and TypeScript. Its visual
 direction is Editorial Home, with a focused studio-style treatment for the
-featured project. Only `/` is implemented. Project principles are in
+featured project. `/universe/` is a separate experimental spatial prototype.
+Project principles are in
 [DESIGN.md](DESIGN.md).
 
 ## Local development
@@ -90,3 +91,53 @@ Before that future deployment, verify `dist/CNAME` contains `junyuchen.ai`, the 
 asset (when supplied) remains `/CV.pdf`, and resource paths work at the domain
 root. Preserve the existing domain/DNS configuration. HTTPS enforcement and the
 missing CV remain separate issues recorded by the original audit.
+
+## Personal Universe — spatial study 01
+
+**Checkpoint status:** This is a technical prototype. Semantic zoom, spatial
+hierarchy, camera navigation and isolated loading have been validated. Its current
+visual appearance is not the final direction. The next phase will focus on
+reworking the grand-scale universe visuals, sense of scale and rendering quality;
+this checkpoint does not extend or polish the current visuals.
+
+Open `/universe/` for the first desktop spatial prototype. The Standard Website
+has no Universe import, navigation change, Three.js dependency in its page bundle,
+or render loop. No portal or deployment change is part of this study.
+
+- **Content:** `src/data/home.ts` remains the shared source. The adapter in
+  `src/universe/semantic.ts` adds reading links and explicit editorial groupings;
+  related interests do not imply completed research or implemented capabilities.
+- **Spatial mapping:** `src/universe/spatial.ts` references those IDs and owns
+  positions, illustrative scales, colors, camera offsets and local placements.
+  A content record can be placed in multiple systems without duplicating its text.
+- **Rendering:** `src/universe/scene.ts` uses Three.js directly. All transitions
+  happen inside one 3D coordinate space. Labels, ambient density, local bodies,
+  orbits and reading detail resolve at different approach distances.
+- **Loading:** `src/universe/entry.ts` imports the renderer only on a desktop-sized,
+  fine-pointer device. Small/coarse-pointer devices use a server-rendered reading
+  view of the same content. Missing JavaScript, failed WebGL initialization and
+  context loss also retain a direct reading path.
+
+Click a spatial label or object to focus. Scroll down to approach the hovered
+(or nearest) target, up to retreat. Back / Escape returns one level; Overview
+returns to the beginning. The canvas also accepts Enter / + to approach, - to
+retreat, and Home for overview. Standard Website is always directly accessible.
+Pause motion stops the ambient movement; reduced-motion disables parallax and
+ambient animation and uses brief focus transitions. These are controlled camera
+moves, not free-flight controls. Positions and orbit scales are illustrative.
+
+The prototype targets 30 fps, caps pixel ratio at 1.5, creates 8,100 ambient points
+plus 180 points per local system (only the focused local system is rendered),
+shares sphere geometry and one 64px glow texture, and uses no postprocessing,
+external textures, physics, WebGPU or shader framework. Offscreen geometry is
+frustum-culled. Animation suspends in hidden tabs; buffers, materials, listeners
+and rendering are disposed on departure, compact-view switching and hot reload.
+In development only, the hidden `#universe-metrics` output reports observed fps,
+CPU render-submission time, draw calls, primitives and allocated resources; it is
+not a GPU timing benchmark. Temporary browser viewport changes can restart the
+view when they cross the compact breakpoint.
+
+The scene is a navigation/scale study, not a complete information atlas. It has
+two regions, eight local systems, ten unique shared content records, and no
+invented papers, products or experiences. AlphaZero remains in progress. The
+semantic grouping and spatial metaphors are intentionally revisable.

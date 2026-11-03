@@ -250,7 +250,7 @@ Standard Website 的动效克制且有目的，用于状态反馈、展开、导
 
 Universe 未来允许大量动态表现；这不授权强制运动、无法退出的镜头或失去方向的交互。它应提供适合设备与访问需求的体验，并始终能够转向直接阅读。
 
-具体宇宙隐喻、镜头、控制方式、空间生成算法、视觉材质、Three.js / WebGPU 等技术全部保持开放。本阶段不构建 renderer 或原型。
+具体宇宙隐喻、镜头、控制方式、空间生成算法、视觉材质与最终渲染技术保持开放。初版宪章阶段不构建 renderer 或原型；后续授权例外见第 14 节。
 
 ## 11. Cross-interface Quality Requirements
 
@@ -325,9 +325,11 @@ Astro + GitHub Pages + 独立内容层适合当前正式网站阶段。这不是
 
 ## 14. Project Boundaries — 当前明确不做
 
+**阶段授权更新 · 2026-11-03：** 项目所有者已明确授权 `/universe/` 的第一个独立空间原型，使用 Three.js + TypeScript，仅验证三维空间、尺度层级、semantic zoom 与受控相机导航。允许独立语义分组和空间映射；共享已有真实内容，不改正式首页、不建门户、不改发布方式。本次选择是可替换的原型技术，不是永久渲染哲学。以下原型禁令仅对此范围解除，其余边界继续有效。
+
 以下内容不属于当前阶段，不能以未来兼容性为由提前实现：
 
-- Personal Universe implementation，包括场景原型、通用 renderer、Three.js / WebGPU。
+- 超出上述验证范围的 Personal Universe implementation，包括通用 renderer、生成平台与 WebGPU。
 - AI desktop pet、Personal Agent、information radar。
 - SaaS、用户系统、登录、多租户、数据库、后端平台。
 - Connector infrastructure、自动信息聚合平台。

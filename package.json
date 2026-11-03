@@ -14,11 +14,13 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "7.4.4"
+    "astro": "7.4.4",
+    "three": "0.187.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@types/node": "24.19.2",
+    "@types/three": "0.187.0",
     "typescript": "6.0.3"
   }
 }

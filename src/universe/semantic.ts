@@ -17,10 +17,10 @@ export const contents: ContentRecord[] = [
     summary: group.id === 'broad-interests'
       ? 'A broad research interest — an area I am learning about and exploring.'
       : 'A direction I am currently exploring. My interests are still evolving.',
-    href: '/#research',
+    href: `/home/#${interest.id}`,
   }))),
   ...projects.map(project => ({
-    ...project, kind: 'Project' as const, href: `/#${project.id}`,
+    ...project, kind: 'Project' as const, href: `/home/#${project.id}`,
     status: project.id === 'alphazero' ? 'in progress' : undefined,
   })),
 ];

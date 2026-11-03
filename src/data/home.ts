@@ -36,6 +36,18 @@ export const researchInterestGroups = [
   },
 ];
 
+// Featured independently so adding this showcase does not change existing
+// Universe mappings or the legacy project collection consumed by other routes.
+export const universeProject = {
+  id: 'junyu-universe',
+  title: 'Junyu Universe',
+  status: 'In Development / Experimental',
+  summary: 'A personal world, made spatial.',
+  description: "I'm exploring how research, projects, knowledge, interests, and experiences can become an interconnected three-dimensional space.",
+  progress: 'The current prototype maps my research interests and projects. Its visual language and interactions are still evolving.',
+  url: '/universe/',
+};
+
 export const projects = [
   {
     id: 'alphazero',

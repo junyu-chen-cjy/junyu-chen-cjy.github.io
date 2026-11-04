@@ -23,7 +23,7 @@ const canonicalUrl = new URL('/home/', Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="theme-color" content="#f6f4ef" />
-    <link rel="icon" href="data:," />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -33,7 +33,7 @@ const canonicalUrl = new URL('/home/', Astro.site);
         <nav aria-label="Main navigation">
           <a href="#about">About</a>
           <a href="#projects">Projects</a>
-          <a href="#research">Research</a>
+          <a href="/research/">Research</a>
           <a href="#contact">Contact</a>
           <a class="nav-universe-link" href="/universe/">Personal Universe <span aria-hidden="true">↗</span></a>
         </nav>

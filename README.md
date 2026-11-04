@@ -72,25 +72,25 @@ The original repository contains neither `avatar.jpg` nor `CV.pdf`.
 - There is no custom favicon yet. An empty data URL prevents a request for a
   nonexistent browser icon.
 
-## Deployment boundary
+## Production deployment
 
-This migration does **not** change GitHub Pages settings, DNS, the custom domain,
-or the online publishing workflow. No deployment workflow is added here.
+The Pages workflow builds Node 24 with npm ci and npm run build (including type
+checks), then publishes only dist/. Pushes to main deploy automatically; a
+manual run on main can retry deployment. Development branches cannot deploy.
 
-The deployment artifact is **`dist/`**, not the repository root. Its root contains
-`index.html`, `CNAME`, `.nojekyll`, the project diagram and generated CSS assets. Astro does not need a
-server at runtime for this site.
+For the first cutover, record the current live main SHA and Pages source,
+branch/path, domain and HTTPS setting. After approval, push the reviewed changes
+to redesign-v2 and prepare the PR. In Settings → Pages, retain junyuchen.ai and
+select GitHub Actions **before merging**: branch publishing cannot serve the
+Astro source tree. Allow the official actions and permit main in the github-pages
+environment. Merge the PR, monitor both jobs, then verify all four HTTPS routes,
+an old root fragment, assets and a missing URL. No DNS changes are expected.
 
-The existing branch-based Pages process does not build Astro. Do not merge this
-migration into the live publishing branch until a separate deployment change has
-been reviewed: it must install the locked dependencies, run `npm run build`, and
-publish **only `dist/`**. Publishing the source tree directly after this migration
-would omit the built homepage and could expose source or documentation files.
-
-Before that future deployment, verify `dist/CNAME` contains `junyuchen.ai`, the CV
-asset (when supplied) remains `/CV.pdf`, and resource paths work at the domain
-root. Preserve the existing domain/DNS configuration. HTTPS enforcement and the
-missing CV remain separate issues recorded by the original audit.
+For a failed workflow, fix the cause and rerun on main. For rollback to the
+original static site, restore the recorded known-good static tree (including its
+root index.html and CNAME) through a reviewed revert, then restore the recorded
+branch publishing source. Do not select branch publishing against Astro sources.
+For later Astro releases revert to the last working Astro revision and redeploy.
 
 ## Personal Universe — spatial study 01
 

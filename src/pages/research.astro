@@ -1,0 +1,93 @@
+---
+import { person, projects, researchInterestGroups } from '../data/home';
+import '../styles/global.css';
+
+const title = `Research — ${person.name}`;
+const description = `${person.name}: ${person.affiliation}. Research interests and selected AI projects.`;
+const canonical = new URL('/research/', Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} /><link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" /><meta property="og:title" content={title} />
+    <meta property="og:description" content={description} /><meta property="og:url" content={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="/home/">junyu<span>chen</span>.ai</a>
+        <nav aria-label="Research navigation">
+          <a href="/home/">Standard Website</a><a href="#interests">Interests</a><a href="#projects">Projects</a>
+        </nav>
+      </header>
+      <main id="main">
+        <header class="mast">
+          <p class="eyebrow">Research profile</p>
+          <h1>{person.name}<span class="name-period">.</span></h1>
+          <p class="affiliation">{person.affiliation}</p>
+        </header>
+        <section aria-labelledby="bio">
+          <h2 id="bio"><small>01</small>Academic bio</h2>
+          <div>
+            <p class="lead">I’m interested in how intelligent systems learn to perceive their surroundings and choose what to do next.</p>
+            <p>I approach these questions by building and studying models, from classifying handwritten digits to exploring how a game-playing agent learns through self-play.</p>
+            <div class="links"><a href={`mailto:${person.email}`}>{person.email}</a><a href={person.github}>GitHub ↗</a></div>
+          </div>
+        </section>
+        <section id="interests" aria-labelledby="interests-title">
+          <h2 id="interests-title"><small>02</small>Research interests</h2>
+          <div>
+            <p>{person.researchIntroduction}</p>
+            <div class="groups">{researchInterestGroups.map(group => (
+              <div><h3 class="eyebrow">{group.title}</h3><ul>{group.interests.map(interest => <li>{interest.title}</li>)}</ul></div>
+            ))}</div>
+          </div>
+        </section>
+        <section id="projects" aria-labelledby="projects-title">
+          <h2 id="projects-title"><small>03</small>Selected projects</h2>
+          <div>{projects.map(project => (
+            <article id={project.id}><h3>{project.title}</h3>
+              <p>{project.summary}</p><p>{project.description}</p>
+              <a class="source" href={project.url} aria-label={`View ${project.title} on GitHub`}>Project repository ↗</a>
+            </article>
+          ))}</div>
+        </section>
+      </main>
+      <footer class="site-footer"><span>{person.name}</span><a href="/home/">← Standard Website</a></footer>
+    </div>
+  </body>
+</html>
+
+<style>
+  .mast { padding-block: clamp(36px, 5vw, 72px); }
+  .mast .eyebrow, h2 small { color: var(--accent); }
+  h1 { margin: 18px 0; font-size: clamp(52px, 7.6vw, 100px); line-height: 1.02; letter-spacing: -.06em; }
+  .affiliation { max-width: 55ch; color: var(--muted); }
+  section { display: grid; grid-template-columns: minmax(185px, 1fr) minmax(0, 2fr); gap: 48px; border-top: 1px solid var(--rule); padding: 34px 0 42px; }
+  section:first-of-type { border-color: var(--ink); }
+  section > div { max-width: 68ch; }
+  h2 { font-size: 29px; line-height: 1.2; letter-spacing: -.035em; }
+  h2 small { display: block; margin-bottom: 10px; font: 12px var(--sans); }
+  section p { font-size: 16px; line-height: 1.65; }
+  .lead { font: 25px/1.35 var(--serif); }
+  p + p { margin-top: 10px; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 16px; }
+  .links a, .source { display: inline-block; padding-block: 6px; color: var(--accent); font-size: 14px; }
+  .groups { margin-top: 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .groups h3 { font-family: var(--sans); color: var(--accent); letter-spacing: .08em; }
+  ul { list-style: none; padding: 0; margin: 12px 0 0; }
+  li { padding: 8px 0; border-top: 1px solid var(--rule); font: 19px/1.35 var(--serif); }
+  article h3 { font-size: 26px; margin-bottom: 12px; }
+  article + article { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--rule); }
+  .source { margin-top: 8px; }
+  @media (max-width: 760px) {
+    section { grid-template-columns: 1fr; gap: 18px; padding-block: 26px 32px; }
+    h2 small { display: inline; margin-right: 12px; }
+  }
+  @media (max-width: 520px) { .groups { grid-template-columns: 1fr; } }
+</style>

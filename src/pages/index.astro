@@ -1,0 +1,73 @@
+---
+import { person, projects, researchInterestGroups } from '../data/home';
+import '../styles/gateway.css';
+
+const description = `${person.name}'s personal digital space. Read the Standard Website or explore the Personal Universe.`;
+// The original homepage lived at /. Keep its public fragments pointing to the
+// same content, including project and research-interest deep links.
+const legacyAnchors = [
+  'top', 'main', 'name', 'about', 'projects', 'projects-title',
+  'research', 'research-title', 'contact', 'contact-title',
+  ...projects.flatMap((project) => [project.id, `${project.id}-title`]),
+  ...researchInterestGroups.map((group) => group.id),
+  ...researchInterestGroups.flatMap((group) => group.interests.map((interest) => interest.id)),
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{person.name} — junyuchen.ai</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={Astro.site} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={person.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.site} />
+    <meta name="theme-color" content="#f3f1eb" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline define:vars={{ legacyAnchors }}>
+      function preserveContentLink() {
+        let fragment;
+        try { fragment = decodeURIComponent(window.location.hash.slice(1)); }
+        catch { return; }
+        if (legacyAnchors.includes(fragment)) {
+          window.location.replace('/home/' + window.location.search + window.location.hash);
+        }
+      }
+      preserveContentLink();
+      window.addEventListener('hashchange', preserveContentLink);
+    </script>
+  </head>
+  <body>
+    <div class="entrance">
+      <main class="entrance-main" id="entrance" aria-labelledby="entrance-name">
+        <h1 id="entrance-name">{person.firstName} <em>{person.lastName}</em><span class="name-point" aria-hidden="true">.</span></h1>
+
+        <nav class="paths" aria-label="Two ways to explore">
+          <a class="path path-reading" href="/home/">
+            <svg class="path-mark reading-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <path class="page-back" d="M10 7h19v24" />
+              <path class="page-front" d="M6 11h19v24H6z" />
+              <path class="page-lines" d="M11 18h9M11 23h9M11 28h6" />
+            </svg>
+            <span class="path-name">Standard Website</span>
+            <svg class="path-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </a>
+          <a class="path path-spatial" href="/universe/">
+            <svg class="path-mark spatial-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+              <circle class="orbit-circle" cx="20" cy="20" r="13" />
+              <ellipse class="orbit-ring" cx="20" cy="20" rx="18" ry="6.5" transform="rotate(-35 20 20)" />
+              <circle class="orbit-center" cx="20" cy="20" r="2" />
+            </svg>
+            <span class="path-name">Personal Universe</span>
+            <svg class="path-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" /></svg>
+          </a>
+        </nav>
+      </main>
+      <footer class="entrance-colophon"><span>junyuchen.ai</span></footer>
+    </div>
+  </body>
+</html>

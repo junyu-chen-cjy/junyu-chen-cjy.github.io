@@ -1,0 +1,171 @@
+---
+import { existsSync } from 'node:fs';
+import { person, projects, researchInterestGroups, universeProject } from '../data/home';
+import '../styles/global.css';
+
+// Dev and build commands run from the repository root, including static builds.
+const hasCV = existsSync('public/CV.pdf');
+const [featuredProject, otherProject] = projects;
+const description = `${person.name} — ${person.introduction} Current explorations and projects in artificial intelligence.`;
+const canonicalUrl = new URL('/home/', Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Junyu Chen — Personal Website</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Junyu Chen" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="theme-color" content="#f6f4ef" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="/" aria-label="junyuchen.ai dual entrance">junyu<span>chen</span>.ai</a>
+        <nav aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="/research/">Research</a>
+          <a href="#contact">Contact</a>
+          <a class="nav-universe-link" href="/universe/">Personal Universe <span aria-hidden="true">↗</span></a>
+        </nav>
+      </header>
+
+      <main id="main" tabindex="-1">
+        <section class="introduction" id="about" aria-labelledby="name">
+          <div class="name-block">
+            <p class="eyebrow">A personal home on the web</p>
+            <h1 id="name">{person.firstName}{' '}<br />{person.lastName}<span class="name-period">.</span></h1>
+          </div>
+          <div class="introduction-copy">
+            <p class="greeting">Hello, I'm Junyu.</p>
+            <p class="introduction-lead">{person.introduction}</p>
+            <details class="biography">
+              <summary>More about me <span class="disclosure-mark" aria-hidden="true">+</span></summary>
+              <div class="disclosure-content">
+                <p>{person.affiliation}.</p>
+                <p>{person.biography}</p>
+              </div>
+            </details>
+            <div class="personal-links" aria-label="Personal links">
+              <a class="text-link" href={person.github}>GitHub <span aria-hidden="true">↗</span></a>
+              <a class="text-link" href={`mailto:${person.email}`}>Email <span aria-hidden="true">↗</span></a>
+              {hasCV ? (
+                <a class="text-link" href={person.cvUrl}>CV <span aria-hidden="true">↗</span></a>
+              ) : (
+                <details class="cv-disclosure">
+                  <summary>CV <span class="disclosure-mark" aria-hidden="true">+</span></summary>
+                  <div class="cv-note">
+                    <p>A CV is not available here yet.</p>
+                    <a href={`mailto:${person.email}?subject=CV%20request`}>Request by email <span aria-hidden="true">↗</span></a>
+                  </div>
+                </details>
+              )}
+              <a class="text-link" href="/universe/">Personal Universe <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <div class="intro-footnote" aria-hidden="true"><span>Research &amp; projects</span><span>Explore below ↓</span></div>
+        </section>
+
+        <section class="projects-section" id="projects" aria-labelledby="projects-title">
+          <div class="section-heading">
+            <p class="eyebrow">01 / Projects</p>
+            <h2 id="projects-title">Learning by building.</h2>
+          </div>
+          <article class="universe-project" aria-labelledby="junyu-universe-title" id={universeProject.id}>
+            <div class="universe-project-heading">
+              <div>
+                <p class="project-kind">{universeProject.status}</p>
+                <h3 id="junyu-universe-title">{universeProject.title}</h3>
+              </div>
+              <div class="universe-project-copy">
+                <p class="universe-project-lead">{universeProject.summary}</p>
+                <p class="project-description">{universeProject.description}</p>
+                <p class="project-description">{universeProject.progress}</p>
+                <a class="text-link" href={universeProject.url}>Explore Junyu Universe <span aria-hidden="true">↗</span></a>
+              </div>
+            </div>
+            <figure class="universe-project-figure">
+              <a href={universeProject.url} aria-label="Enter Junyu Universe from the project preview">
+                <img src="/images/junyu-universe.jpg" width="1440" height="540"
+                  alt="Research and Building appear as two luminous galaxies in the current Junyu Universe prototype."
+                  loading="lazy" decoding="async" />
+              </a>
+              <figcaption><span>Research &amp; Building</span><span>Current prototype · Static capture</span></figcaption>
+            </figure>
+          </article>
+          <article class="featured-project" aria-labelledby="alphazero-title" id={featuredProject.id}>
+            <div class="project-copy">
+              <p class="project-kind">In progress / Self-play</p>
+              <h3 id="alphazero-title">{featuredProject.title}</h3>
+              <p class="project-summary">{featuredProject.summary}</p>
+              <p class="project-description">{featuredProject.description}</p>
+              <a class="text-link" href={featuredProject.url}>Explore AlphaZero on GitHub <span aria-hidden="true">↗</span></a>
+            </div>
+            <figure class="search-figure">
+              <div class="figure-heading"><span>Monte-Carlo Tree Search</span><span aria-hidden="true">↘</span></div>
+              <img src="/images/search-tree.svg" width="600" height="340" alt="A conceptual search tree branches from one position into possible moves, with one path highlighted." loading="lazy" />
+              <figcaption>Conceptual sketch <span>Not a recorded search</span></figcaption>
+            </figure>
+          </article>
+          <article class="compact-project" aria-labelledby="mnist-title" id={otherProject.id}>
+            <div>
+              <p class="project-kind">Deep learning / Computer vision</p>
+              <h3 id="mnist-title">{otherProject.title}</h3>
+            </div>
+            <div class="compact-description">
+              <p>{otherProject.summary}</p>
+              <p class="project-description">{otherProject.description}</p>
+              <a class="text-link" href={otherProject.url}>Explore MNIST on GitHub <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </section>
+
+        <section class="research-section" id="research" aria-labelledby="research-title">
+          <div class="research-intro">
+            <p class="eyebrow">02 / Research</p>
+            <h2 id="research-title">Questions<br />to spend time with.</h2>
+            <p>{person.researchIntroduction}</p>
+          </div>
+          <div>
+            {researchInterestGroups.map((group) => (
+              <div class="research-index" role="group" aria-labelledby={group.id}>
+                <p class="eyebrow" id={group.id}>{group.title}</p>
+                <ul>
+                  {group.interests.map((interest, index) => (
+                    <li id={interest.id}><span class="interest-number" aria-hidden="true">0{index + 1}</span><span>{interest.title}</span></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="contact-section" id="contact" aria-labelledby="contact-title">
+          <p class="eyebrow">03 / Contact</p>
+          <div class="contact-content">
+            <h2 id="contact-title">Let's stay in touch.</h2>
+            <a class="email-link" href={`mailto:${person.email}`}>{person.email} <span aria-hidden="true">↗</span></a>
+          </div>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <span>{person.name}</span>
+        <div>
+          <a href="/">Entrance</a>
+          <a href="/universe/">Personal Universe <span aria-hidden="true">↗</span></a>
+          <a href={person.github}>GitHub <span aria-hidden="true">↗</span></a>
+          <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
